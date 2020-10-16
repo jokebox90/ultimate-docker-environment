@@ -1,0 +1,10 @@
+localhost ansible_connection=local
+
+[nexus3]
+localhost
+
+[py3]
+localhost
+
+[py3:vars]
+ansible_python_interpreter=/usr/bin/python3

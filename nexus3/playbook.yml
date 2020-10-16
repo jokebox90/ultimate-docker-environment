@@ -1,0 +1,22 @@
+# - Playbook for Nexus3 execution on Docker
+- hosts: nexus3
+  tasks:
+    - name: Fetch application from sources
+      git:
+        repo: 'https://github.com/sonatype-nexus-community/nexus-repository-composer.git'
+        dest:  '{{ playbook_dir }}/src'
+        update: yes
+
+    - name: Bring up docker containers for project
+      docker_compose:
+        project_src: '{{ playbook_dir }}'
+      async: 1800
+      poll: 0
+      register: docker_task
+
+    - name: Docker Compose task monitor - check status
+      async_status:
+        jid: "{{ docker_task.ansible_job_id }}"
+      register: docker_job
+      until: docker_job.finished
+      retries: 180

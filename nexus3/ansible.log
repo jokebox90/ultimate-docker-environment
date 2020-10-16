@@ -1,0 +1,110 @@
+2020-10-15 00:39:46,640 p=78021 u=jokebox n=ansible | [DEPRECATION WARNING]: see plugin documentation for details. This feature will be removed from community.general in version 2.0.0. 
+Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+2020-10-15 00:39:46,644 p=78021 u=jokebox n=ansible | PLAY [nexus3] *****************************************************************************************************************************
+2020-10-15 00:39:46,644 p=78021 u=jokebox n=ansible | PLAY [nexus3] *****************************************************************************************************************************
+2020-10-15 00:39:46,644 p=78021 u=jokebox n=ansible | PLAY [nexus3] *****************************************************************************************************************************
+2020-10-15 00:39:46,644 p=78021 u=jokebox n=ansible | PLAY [nexus3] *****************************************************************************************************************************
+2020-10-15 00:39:46,644 p=78021 u=jokebox n=ansible | PLAY [nexus3] *****************************************************************************************************************************
+2020-10-15 00:39:46,651 p=78021 u=jokebox n=ansible | TASK [Gathering Facts] ********************************************************************************************************************
+2020-10-15 00:39:46,651 p=78021 u=jokebox n=ansible | TASK 1/3 [Gathering Facts] ****************************************************************************************************************
+2020-10-15 00:39:46,651 p=78021 u=jokebox n=ansible | TASK [Gathering Facts] ********************************************************************************************************************
+2020-10-15 00:39:46,652 p=78021 u=jokebox n=ansible | Thursday 15 October 2020  00:39:46 +0200 (0:00:00.012)       0:00:00.012 ****** 
+2020-10-15 00:39:46,652 p=78021 u=jokebox n=ansible | TASK [Gathering Facts] ********************************************************************************************************************
+2020-10-15 00:39:46,652 p=78021 u=jokebox n=ansible | TASK [Gathering Facts] ********************************************************************************************************************
+2020-10-15 00:39:47,256 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:47,257 p=78021 u=jokebox n=ansible | ok: 1/1 [localhost]
+2020-10-15 00:39:47,258 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:47,260 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:47,262 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:47,272 p=78021 u=jokebox n=ansible | TASK [Fetch application from sources] *****************************************************************************************************
+2020-10-15 00:39:47,272 p=78021 u=jokebox n=ansible | TASK 2/3 [Fetch application from sources] *************************************************************************************************
+2020-10-15 00:39:47,272 p=78021 u=jokebox n=ansible | TASK [Fetch application from sources] *****************************************************************************************************
+2020-10-15 00:39:47,272 p=78021 u=jokebox n=ansible | Thursday 15 October 2020  00:39:47 +0200 (0:00:00.620)       0:00:00.633 ****** 
+2020-10-15 00:39:47,272 p=78021 u=jokebox n=ansible | TASK [Fetch application from sources] *****************************************************************************************************
+2020-10-15 00:39:47,272 p=78021 u=jokebox n=ansible | TASK [Fetch application from sources] *****************************************************************************************************
+2020-10-15 00:39:47,888 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:47,888 p=78021 u=jokebox n=ansible | ok: 1/1 [localhost]
+2020-10-15 00:39:47,888 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:47,888 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:47,889 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:47,893 p=78021 u=jokebox n=ansible | TASK [Bring up docker containers for project] *********************************************************************************************
+2020-10-15 00:39:47,893 p=78021 u=jokebox n=ansible | TASK 3/3 [Bring up docker containers for project] *****************************************************************************************
+2020-10-15 00:39:47,893 p=78021 u=jokebox n=ansible | TASK [Bring up docker containers for project] *********************************************************************************************
+2020-10-15 00:39:47,893 p=78021 u=jokebox n=ansible | Thursday 15 October 2020  00:39:47 +0200 (0:00:00.620)       0:00:01.253 ****** 
+2020-10-15 00:39:47,893 p=78021 u=jokebox n=ansible | TASK [Bring up docker containers for project] *********************************************************************************************
+2020-10-15 00:39:47,893 p=78021 u=jokebox n=ansible | TASK [Bring up docker containers for project] *********************************************************************************************
+2020-10-15 00:39:48,184 p=78021 u=jokebox n=ansible | changed: [localhost]
+2020-10-15 00:39:48,184 p=78021 u=jokebox n=ansible | changed: 1/1 [localhost]
+2020-10-15 00:39:48,185 p=78021 u=jokebox n=ansible | changed: [localhost]
+2020-10-15 00:39:48,185 p=78021 u=jokebox n=ansible | changed: [localhost]
+2020-10-15 00:39:48,185 p=78021 u=jokebox n=ansible | changed: [localhost]
+2020-10-15 00:39:48,193 p=78021 u=jokebox n=ansible | TASK [Docker Compose task monitor - check status] *****************************************************************************************
+2020-10-15 00:39:48,193 p=78021 u=jokebox n=ansible | TASK 4/3 [Docker Compose task monitor - check status] *************************************************************************************
+2020-10-15 00:39:48,193 p=78021 u=jokebox n=ansible | TASK [Docker Compose task monitor - check status] *****************************************************************************************
+2020-10-15 00:39:48,194 p=78021 u=jokebox n=ansible | Thursday 15 October 2020  00:39:48 +0200 (0:00:00.300)       0:00:01.554 ****** 
+2020-10-15 00:39:48,194 p=78021 u=jokebox n=ansible | TASK [Docker Compose task monitor - check status] *****************************************************************************************
+2020-10-15 00:39:48,194 p=78021 u=jokebox n=ansible | TASK [Docker Compose task monitor - check status] *****************************************************************************************
+2020-10-15 00:39:53,478 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:53,478 p=78021 u=jokebox n=ansible | ok: 1/1 [localhost]
+2020-10-15 00:39:53,479 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:53,479 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:53,480 p=78021 u=jokebox n=ansible | ok: [localhost]
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | PLAY RECAP ********************************************************************************************************************************
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | localhost                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | PLAY RECAP ********************************************************************************************************************************
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | localhost                  : ok=4    changed=1    unreachable=0    failed=0    rescued=0    ignored=0   
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | PLAY RECAP ********************************************************************************************************************************
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | localhost                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | Thursday 15 October 2020  00:39:53 +0200 (0:00:05.295)       0:00:06.849 ****** 
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | =============================================================================== 
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | Docker Compose task monitor - check status ----------------------------------------------------------------------------------------- 5.30s
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | Fetch application from sources ----------------------------------------------------------------------------------------------------- 0.62s
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | Gathering Facts -------------------------------------------------------------------------------------------------------------------- 0.62s
+2020-10-15 00:39:53,489 p=78021 u=jokebox n=ansible | Bring up docker containers for project --------------------------------------------------------------------------------------------- 0.30s
+2020-10-15 00:39:53,490 p=78021 u=jokebox n=ansible | PLAY RECAP ********************************************************************************************************************************
+2020-10-15 00:39:53,490 p=78021 u=jokebox n=ansible | localhost                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2020-10-15 00:39:53,490 p=78021 u=jokebox n=ansible | Playbook run took 0 days, 0 hours, 0 minutes, 6 seconds
+2020-10-15 00:39:53,490 p=78021 u=jokebox n=ansible | PLAY RECAP ********************************************************************************************************************************
+2020-10-15 00:39:53,490 p=78021 u=jokebox n=ansible | localhost                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2020-10-15 00:41:32,641 p=78319 u=jokebox n=ansible | ERROR! Unexpected Exception, this is probably a bug: cannot import name 'AnsibleCollectionLoader' from 'ansible.utils.collection_loader' (/usr/local/lib/python3.8/dist-packages/ansible/utils/collection_loader/__init__.py)
+2020-10-15 00:41:32,642 p=78319 u=jokebox n=ansible | the full traceback was:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/ansible-playbook", line 92, in <module>
+    mycli = getattr(__import__("ansible.cli.%s" % sub, fromlist=[myclass]), myclass)
+  File "/usr/local/lib/python3.8/dist-packages/ansible/cli/__init__.py", line 22, in <module>
+    from ansible.inventory.manager import InventoryManager
+  File "/usr/local/lib/python3.8/dist-packages/ansible/inventory/manager.py", line 38, in <module>
+    from ansible.plugins.loader import inventory_loader
+  File "/usr/local/lib/python3.8/dist-packages/ansible/plugins/loader.py", line 26, in <module>
+    from ansible.utils.collection_loader import AnsibleCollectionLoader, AnsibleFlatMapLoader, AnsibleCollectionRef
+ImportError: cannot import name 'AnsibleCollectionLoader' from 'ansible.utils.collection_loader' (/usr/local/lib/python3.8/dist-packages/ansible/utils/collection_loader/__init__.py)
+
+2020-10-15 00:41:51,478 p=78344 u=jokebox n=ansible | ERROR! Unexpected Exception, this is probably a bug: cannot import name 'AnsibleCollectionLoader' from 'ansible.utils.collection_loader' (/usr/local/lib/python3.8/dist-packages/ansible/utils/collection_loader/__init__.py)
+2020-10-15 00:41:51,478 p=78344 u=jokebox n=ansible | the full traceback was:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/ansible-playbook", line 92, in <module>
+    mycli = getattr(__import__("ansible.cli.%s" % sub, fromlist=[myclass]), myclass)
+  File "/usr/local/lib/python3.8/dist-packages/ansible/cli/__init__.py", line 22, in <module>
+    from ansible.inventory.manager import InventoryManager
+  File "/usr/local/lib/python3.8/dist-packages/ansible/inventory/manager.py", line 38, in <module>
+    from ansible.plugins.loader import inventory_loader
+  File "/usr/local/lib/python3.8/dist-packages/ansible/plugins/loader.py", line 26, in <module>
+    from ansible.utils.collection_loader import AnsibleCollectionLoader, AnsibleFlatMapLoader, AnsibleCollectionRef
+ImportError: cannot import name 'AnsibleCollectionLoader' from 'ansible.utils.collection_loader' (/usr/local/lib/python3.8/dist-packages/ansible/utils/collection_loader/__init__.py)
+
+2020-10-15 00:42:47,741 p=78388 u=jokebox n=ansible | ERROR! Unexpected Exception, this is probably a bug: cannot import name 'AnsibleCollectionLoader' from 'ansible.utils.collection_loader' (/usr/local/lib/python3.8/dist-packages/ansible/utils/collection_loader/__init__.py)
+2020-10-15 00:42:47,742 p=78388 u=jokebox n=ansible | the full traceback was:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/ansible-playbook", line 92, in <module>
+    mycli = getattr(__import__("ansible.cli.%s" % sub, fromlist=[myclass]), myclass)
+  File "/usr/local/lib/python3.8/dist-packages/ansible/cli/__init__.py", line 22, in <module>
+    from ansible.inventory.manager import InventoryManager
+  File "/usr/local/lib/python3.8/dist-packages/ansible/inventory/manager.py", line 38, in <module>
+    from ansible.plugins.loader import inventory_loader
+  File "/usr/local/lib/python3.8/dist-packages/ansible/plugins/loader.py", line 26, in <module>
+    from ansible.utils.collection_loader import AnsibleCollectionLoader, AnsibleFlatMapLoader, AnsibleCollectionRef
+ImportError: cannot import name 'AnsibleCollectionLoader' from 'ansible.utils.collection_loader' (/usr/local/lib/python3.8/dist-packages/ansible/utils/collection_loader/__init__.py)
+
