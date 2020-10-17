@@ -1,0 +1,41 @@
+# Using version 3 to provide play-with-docker badge
+# You can change to version 2 without breaking.
+#version: '2'
+version: '3'
+services:
+  database:
+    image: postgres:9.6-alpine
+    environment:
+      - POSTGRES_USER=hackmd
+      - POSTGRES_PASSWORD=hackmdpass
+      - POSTGRES_DB=hackmd
+    volumes:
+      - database:/var/lib/postgresql/data
+    networks:
+      backend:
+    restart: always
+
+  app:
+    # Uncomment the following section to build the image yourself:
+    #build:
+    #  context: .
+    #  dockerfile: debian/Dockerfile
+    #  args:
+    #    - "VERSION=master"
+    #    - "CODIMD_REPOSITORY=https://github.com/codimd/server.git"
+    image: codimd
+    environment:
+      - CMD_DB_URL=postgres://hackmd:hackmdpass@database:5432/hackmd
+    ports:
+      - "3000:3000"
+    networks:
+      backend:
+    restart: always
+    depends_on:
+      - database
+
+networks:
+  backend:
+
+volumes:
+  database:
