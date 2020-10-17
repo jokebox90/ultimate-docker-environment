@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  web:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: '${HTTP_URL}'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://${HTTP_URL}'
+        gitlab_rails['gitlab_shell_ssh_port'] = ${SSH_PORT}
+    ports:
+      - '${HTTP_IP}:${HTTP_PORT}:80'
+      - '${SSH_PORT}:${SSH_PORT}'
+    volumes:
+      - 'config_data:/etc/gitlab'
+      - 'logs_data:/var/log/gitlab'
+      - 'web_data:/var/opt/gitlab'
+
+volumes:
+
+  config_data: {}
+  logs_data: {}
+  web_data: {}
