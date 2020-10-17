@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+
+  db:
+    restart: unless-stopped
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      # - /etc/localtime:/etc/localtime:ro
+    image: mariadb:10.3
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MM_PASSWORD}
+      MYSQL_USER: ${MM_USERNAME}
+      MYSQL_PASSWORD: ${MM_PASSWORD}
+      MYSQL_DATABASE: ${MM_DBNAME}
+
+  app:
+    image: mattermost
+    ports:
+        - '${HTTP_IP}:${HTTP_PORT}:8000'
+    restart: unless-stopped
+    volumes:
+      - config_data:/mattermost/config:rw
+      - mattermost_data:/mattermost/data:rw
+      - logs_data:/mattermost/logs:rw
+      - plugins_data:/mattermost/plugins:rw
+      - client_plugins_data:/mattermost/client/plugins:rw
+      - /etc/localtime:/etc/localtime:ro
+      # When you want to use SSO with GitLab, you have to add the cert pki chain of GitLab inside Alpine
+      # to avoid Token request failed: certificate signed by unknown authority (link: https://github.com/mattermost/mattermost-server/issues/13059)
+      # - <path_to_your_gitlab_pki>/pki_chain.pem:/etc/ssl/certs/pki_chain.pem:ro
+    environment:
+      MM_USERNAME: ${MM_USERNAME}
+      MM_PASSWORD: ${MM_PASSWORD}
+      MM_DBNAME: ${MM_DBNAME}
+      MM_SQLSETTINGS_DATASOURCE: ${MM_USERNAME}:${MM_PASSWORD}@tcp(db:3306)/${MM_DBNAME}?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s
+      MM_SQLSETTINGS_DRIVERNAME: mysql
+
+volumes:
+
+  config_data: {}
+  mattermost_data: {}
+  logs_data: {}
+  plugins_data: {}
+  client_plugins_data: {}
+  mariadb_data: {}
