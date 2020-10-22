@@ -9,6 +9,9 @@ services:
       - '${HTTP_IP}:${HTTP_PORT}:8081'
     volumes:
       - 'nexus3_data:/nexus-data'
+    labels:
+      SERVICE_TAGS: urlprefix-nexus3.localhost/
+      SERVICE_80_CHECK_HTTP: /
 
 volumes:
 
