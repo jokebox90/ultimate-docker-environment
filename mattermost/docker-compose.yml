@@ -13,11 +13,13 @@ services:
       MYSQL_USER: ${MM_USERNAME}
       MYSQL_PASSWORD: ${MM_PASSWORD}
       MYSQL_DATABASE: ${MM_DBNAME}
+    networks:
+      - backend
 
   app:
     image: mattermost
-    ports:
-        - '${HTTP_IP}:${HTTP_PORT}:8000'
+    expose:
+        - 8000
     restart: unless-stopped
     volumes:
       - config_data:/mattermost/config:rw
@@ -35,7 +37,19 @@ services:
       MM_DBNAME: ${MM_DBNAME}
       MM_SQLSETTINGS_DATASOURCE: ${MM_USERNAME}:${MM_PASSWORD}@tcp(db:3306)/${MM_DBNAME}?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s
       MM_SQLSETTINGS_DRIVERNAME: mysql
+    labels:
+      SERVICE_TAGS: urlprefix-mattermost.localhost/
+      SERVICE_8000_CHECK_HTTP: /
+    networks:
+      - consul
+      - backend
 
+networks:
+  backend:
+  consul:
+    external: true
+    name: consul_default
+    
 volumes:
 
   config_data: {}
