@@ -52,8 +52,8 @@ services:
     <<: *image
     <<: *restart_policy
     command: "./docker/proxy"
-    ports:
-      - '${HTTP_IP}:${HTTP_PORT}:80'
+    expose:
+      - 80
     environment:
       - APP_HOST=web
       - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
@@ -61,6 +61,9 @@ services:
       - web
     networks:
       - frontend
+    labels:
+      SERVICE_TAGS: urlprefix-openproject.localhost/
+      SERVICE_80_CHECK_HTTP: /
 
   web:
     <<: *app
