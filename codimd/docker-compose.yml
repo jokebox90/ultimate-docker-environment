@@ -26,6 +26,7 @@ services:
     image: codimd
     environment:
       - CMD_DB_URL=postgres://hackmd:hackmdpass@database:5432/hackmd
+      - CMD_ALLOW_ANONYMOUS=false
     ports:
       - "3000:3000"
     networks:
