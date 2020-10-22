@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  lb:
+    build: .
+    image: fabio
+    ports:
+      - '80:9999'
+      - '9998:9998'
+    networks:
+      - consul
+      - codimd
+      - gitlab
+      - mattermost
+      - nexus3
+      - openproject
+
+networks:
+  consul:
+    external: true
+    name: consul_default
+  codimd:
+    external: true
+    name: codimd_default
+  gitlab:
+    external: true
+    name: gitlab_default
+  mattermost:
+    external: true
+    name: mattermost_default
+  nexus3:
+    external: true
+    name: nexus3_default
+  openproject:
+    external: true
+    name: openproject_frontend
