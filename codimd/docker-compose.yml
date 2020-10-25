@@ -16,19 +16,16 @@ services:
     restart: always
 
   app:
-    # Uncomment the following section to build the image yourself:
-    #build:
-    #  context: .
-    #  dockerfile: debian/Dockerfile
-    #  args:
-    #    - "VERSION=master"
-    #    - "CODIMD_REPOSITORY=https://github.com/codimd/server.git"
+    build: .
     image: codimd
     environment:
       - CMD_DB_URL=postgres://hackmd:hackmdpass@database:5432/hackmd
       - CMD_ALLOW_ANONYMOUS=false
-    ports:
-      - "3000:3000"
+    labels:
+      SERVICE_TAGS: urlprefix-mattermost.localhost/
+      SERVICE_3000_CHECK_HTTP: /
+    expose:
+      - 3000
     networks:
       backend:
     restart: always

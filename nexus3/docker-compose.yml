@@ -3,15 +3,16 @@ version: '3.8'
 services:
 
   web:
+    build: src
     image: nexus3
     restart: unless-stopped
-    ports:
-      - '${HTTP_IP}:${HTTP_PORT}:8081'
+    expose:
+      - 8081
     volumes:
-      - 'nexus3_data:/nexus-data'
+      - 'web_data:/nexus-data'
     labels:
-      SERVICE_TAGS: urlprefix-nexus3.localhost/
-      SERVICE_80_CHECK_HTTP: /
+      SERVICE_8081_TAGS: urlprefix-nexus3.localhost/
+      SERVICE_8081_CHECK_HTTP: /
 
 volumes:
 

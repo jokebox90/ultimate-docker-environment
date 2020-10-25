@@ -8,29 +8,29 @@ services:
       - '80:9999'
       - '9998:9998'
     networks:
-      - consul
-      - codimd
-      - gitlab
-      - mattermost
-      - nexus3
-      - openproject
+      - consul_default
+      - codimd_frontend
+      - gitlab_frontend
+      - mattermost_frontend
+      - nexus3_frontend
+      - openproject_frontend
 
 networks:
-  consul:
+  consul_default:
     external: true
     name: consul_default
-  codimd:
+  codimd_frontend:
     external: true
-    name: codimd_default
-  gitlab:
+    name: consul_codimd_frontend
+  gitlab_frontend:
     external: true
-    name: gitlab_default
-  mattermost:
+    name: consul_gitlab_frontend
+  mattermost_frontend:
     external: true
-    name: mattermost_default
-  nexus3:
+    name: consul_mattermost_frontend
+  nexus3_frontend:
     external: true
-    name: nexus3_default
-  openproject:
+    name: consul_nexus3_frontend
+  openproject_frontend:
     external: true
-    name: openproject_frontend
+    name: consul_openproject_frontend

@@ -1,16 +1,13 @@
-version: '3'
+version: '3.7'
 
 services:
   agent:
-    build: .
     image: gliderlabs/registrator:latest
     command: -internal consul://consul-server-bootstrap:8500
     volumes:
       - '/var/run/docker.sock:/tmp/docker.sock'
-    networks:
-      - consul
 
 networks:
-  consul:
+  default:
     external: true
     name: consul_default
