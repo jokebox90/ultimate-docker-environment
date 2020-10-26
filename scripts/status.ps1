@@ -1,15 +1,4 @@
-$services = @(
-    "consul",
-    "registrator",
-    "fabio",
-    "openproject",
-    "gitlab",
-    "nexus3",
-    "mattermost",
-    "codimd"
-)
-
-function Fn-GetServiceStatus {
+function Get-DockerServiceStatus {
     param (
         [string]$Name,
         [string]$Path
@@ -24,12 +13,30 @@ function Fn-GetServiceStatus {
     Write-Host ""
 }
 
+function Get-AllDockerServicesStatus {
+    param (
+        [string]$RootDirectory,
+        [array]$AllServices
+    )
+
+    foreach ($service in $AllServices) {
+        Get-DockerServiceStatus -Name $service -Path "$RootDirectory\$service"
+    }    
+}
+
+$services = @(
+    "consul",
+    "registrator",
+    "fabio",
+    "openproject",
+    "gitlab",
+    "nexus3",
+    "mattermost",
+    "codimd"
+)
 
 $currentWorkingDir = $(Get-Location)
 
-foreach ($serviceName in $services) {
-    $serviceWorkingDir = "$currentWorkingDir\$serviceName"
-    Fn-GetServiceStatus -Name $serviceName -Path $serviceWorkingDir
-}
+Get-AllDockerServicesStatus -RootDirectory $currentWorkingDir -AllServices $services
 
 Set-Location $currentWorkingDir
