@@ -22,17 +22,21 @@ services:
       - CMD_DB_URL=postgres://hackmd:hackmdpass@database:5432/hackmd
       - CMD_ALLOW_ANONYMOUS=false
     labels:
-      SERVICE_TAGS: urlprefix-mattermost.localhost/
+      SERVICE_TAGS: urlprefix-codimd.localhost/
       SERVICE_3000_CHECK_HTTP: /
     expose:
       - 3000
     networks:
+      frontend:
       backend:
     restart: always
     depends_on:
       - database
 
 networks:
+  frontend:
+    external: true
+    name: consul_codimd_frontend
   backend:
 
 volumes:

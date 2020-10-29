@@ -10,10 +10,16 @@ services:
       - 8081
     volumes:
       - 'web_data:/nexus-data'
+    networks:
+      - frontend
     labels:
       SERVICE_8081_TAGS: urlprefix-nexus3.localhost/
       SERVICE_8081_CHECK_HTTP: /
 
 volumes:
-
   web_data: {}
+
+networks:
+  frontend:
+    external: true
+    name: consul_nexus3_frontend

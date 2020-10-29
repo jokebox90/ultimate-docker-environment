@@ -42,14 +42,14 @@ services:
       SERVICE_TAGS: urlprefix-mattermost.localhost/
       SERVICE_8000_CHECK_HTTP: /
     networks:
-      - consul
+      - frontend
       - backend
 
 networks:
   backend:
-  consul:
+  frontend:
     external: true
-    name: consul_default
+    name: consul_mattermost_frontend
     
 volumes:
 
