@@ -1,94 +1,162 @@
 Param (
     [string]$Action,
-    [string]$Scope,
+    [string]$Project,
     [string]$Service
 )
 
-function Get-AllProjects {
-    $WorkingDirectory = (Get-Item ".").FullName
-    $ConfigurationFile = "$WorkingDirectory\projects.xml"
-    [xml]$XmlDocument = Get-Content $ConfigurationFile
+$ErrorActionPreference = "stop"
 
-    $Projects = [System.Collections.ArrayList]@()
-    foreach ($Obj in $XmlDocument.Projects.Project) {  
-        $p = [pscustomobject]@{Name = $Obj.Name}
-        [void]$Projects.Add($p)
+function Program {
+    Param (
+        [string]$Action,
+        [string]$Project,
+        [string]$Service
+    )
+    
+    $location = (Get-Location).Path
+    $allProjects = Get-Project -Name $Project
+
+    if (-Not $Action -in @("start", "status")) {
+        [array]::Reverse($allProjects)
     }
 
-    return $Projects
+    foreach ($item in $allProjects) {
+        $directory = "$($location)\$($item.Name)"
+        $file = "$($location)\$($item.Name)\docker-compose.yml"
+
+        if (-Not (Test-Path $directory)) {
+            DisplayError "directory not found: $directory."
+            exit
+        }
+
+        if (-Not (Test-Path $file)) {
+            DisplayError "file not found: $file."
+            exit
+        }
+    }
+
+    foreach ($item in $allProjects) {
+        $directory = "$($location)\$($item.Name)"
+        $file = "$($location)\$($item.Name)\docker-compose.yml"
+
+        Write-Host "---"
+        Write-Host "--- Project: $($item.Name)"
+        Write-Host "--- GitUrl: $($item.GitUrl)"
+        Write-Host "---"
+
+        if ($item.GitUrl -And -Not (Test-Path "$($Directory)\src")) {
+            PullProjectSources -GitUrl $item.GitUrl -Destination "$($directory)\src" -Refs $item.GitRefs
+        }
+
+        switch ($Action)
+        {
+            "status" { ProjectStatus -File $file -Directory $directory -Service $Service; Break }
+            "start" { ProjectStart -File $file -Directory $directory -Service $Service; Break }
+            "stop" { ProjectStop -File $file -Directory $directory -Service $Service; Break }
+            "recreate" { ProjectRecreate -File $file -Directory $directory -Service $Service; Break }
+        }
+    }
 }
 
-function Get-ProjectInfo {
+function Get-ProjectConfiguration {
+    $configDir = (Get-Location).Path
+    $configFile = "$configDir\projects.xml"
+
+    if (-Not (Test-Path $configFile)) {
+        Write-Host "Error" -ForegroundColor Red -NoNewline
+        Write-Host ": configuration file not found: $configFile"
+        exit
+    }
+
+    [xml]$configXml = Get-Content $configFile
+    return $configXml.Projects
+}
+
+function Get-Project {
     Param (
         [string]$Name
     )
 
-    $WorkingDirectory = (Get-Item ".").FullName
-    $ConfigurationFile = "$WorkingDirectory\projects.xml"
+    $projectXml = (Get-ProjectConfiguration).Project
+    $projectList = [System.Collections.ArrayList]@()
 
-    [xml]$XmlDocument = Get-Content $ConfigurationFile
-    $result = $XmlDocument.Projects.Project | Where-Object -Property Name -Eq $Name
+    foreach ($item in $projectXml) {
+        if ($Name -And -Not ($Name -Eq $item.Name)) {
+            continue
+        }
 
-    $obj = [pscustomobject]@{
-        Name = $result.Name
-        GitUrl = $result.GitUrl
+        $projectObj = [pscustomobject]@{
+            Name = $item.Name
+            GitUrl = $item.GitUrl
+        }
+
+        [void]$projectList.Add($projectObj)
     }
 
-    return $obj
+    return $projectList
 }
 
-function StatusCommand {
+function PullProjectSources {
+    Param (
+        [string]$GitUrl,
+        [string]$Destination,
+        [string]$Refs = "master"
+    )
+
+    git clone -b $Refs $GitUrl $Destination
+}
+
+function ProjectStatus {
     Param (
         [string]$File,
         [string]$Directory,
         [string]$Service
     )
 
-    docker-compose -f $File --project-directory $Directory ps $Service
+    docker-compose --file $File --project-directory $Directory ps $Service
 }
 
-function StartCommand {
+function ProjectStart {
     Param (
         [string]$File,
         [string]$Directory,
         [string]$Service
     )
 
-    docker-compose -f $File --project-directory $Directory up -d --build $Service
+    docker-compose --file $File --project-directory $Directory up -d --build $Service
 }
 
-function StopCommand {
+function ProjectStop {
     Param (
         [string]$File,
-        [string]$Directory
+        [string]$Directory,
+        [string]$Service
     )
 
-    docker-compose -f $File --project-directory $Directory down
-}
-
-foreach ($item in Get-AllProjects) {
-    $project = Get-ProjectInfo -Name $item.Name
-
-    if ($Scope -And -Not ($Scope -Eq $project.Name)) {
-        continue
-    }
-
-    Write-Host "---"
-    Write-Host "--- Project: $($project.Name)"
-    Write-Host "--- GitUrl: $($project.GitUrl)"
-    Write-Host "---"
-
-    $Directory = "$WorkingDirectory\$($result.Name)"
-    $File = "docker-compose.yml"
-
-    if ($project.GitUrl -And -Not (Test-Path "$($Directory)\src")) {
-        git clone $project.GitUrl "$($Directory)\src"
-    }
-
-    switch ($Action)
-    {
-        "status" { StatusCommand "$Directory\docker-compose.yml" $Directory $Service; Break }
-        "start" { StartCommand "$Directory\docker-compose.yml" $Directory $Service; Break }
-        "stop" { StopCommand "$Directory\docker-compose.yml" $Directory $Service; Break }
+    if ($Service) {
+        docker-compose --file $File --project-directory $Directory rm --force --stop $Service
+    } else {
+        docker-compose --file $File --project-directory $Directory down   
     }
 }
+
+function ProjectRecreate {
+    Param (
+        [string]$File,
+        [string]$Directory,
+        [string]$Service
+    )
+
+    docker-compose --file $File --project-directory $Directory up -d --build --force-recreate $Service
+}
+
+function DisplayError {
+    Param (
+        [string]$Message
+    )
+    
+    Write-Host "Error" -ForegroundColor Red -NoNewline
+    Write-Host ": $Message"
+}
+
+Program -Action $Action -Project $Project -Service $Service
