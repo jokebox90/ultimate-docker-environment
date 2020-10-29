@@ -3,7 +3,7 @@ version: "3.7"
 networks:
   frontend:
     external: true
-    name: consul_openproject_frontend
+    name: consul_default
   backend:
 
 volumes:

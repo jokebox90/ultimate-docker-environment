@@ -3,102 +3,35 @@ version: '3'
 x-consul-image: &image
   image: consul:latest
 
-x-consul-networks: &networks
-  codimd_frontend: {}
-  gitlab_frontend: {}
-  mattermost_frontend: {}
-  nexus3_frontend: {}
-  openproject_frontend: {}
-
 x-consul-agent: &agent
   <<: *image
   command: "agent -retry-join consul-server-bootstrap -client 0.0.0.0"
 
 x-consul-server: &server
   <<: *image
+  command: "agent -server -retry-join consul-server-bootstrap -client 0.0.0.0"
 
 services:
   consul-agent-1:
     <<: *agent
-    networks:
-      <<: *networks
-      default:
-        ipv4_address: 172.28.20.1
-    command: "agent -advertise 172.28.20.1 -retry-join consul-server-bootstrap -client 0.0.0.0"
 
   consul-agent-2:
     <<: *agent
-    networks:
-      <<: *networks
-      default:
-        ipv4_address: 172.28.20.2
-    command: "agent -advertise 172.28.20.2 -retry-join consul-server-bootstrap -client 0.0.0.0"
 
   consul-agent-3:
     <<: *agent
-    networks:
-      <<: *networks
-      default:
-        ipv4_address: 172.28.20.3
-    command: "agent -advertise 172.28.20.3 -retry-join consul-server-bootstrap -client 0.0.0.0"
 
   consul-server-1:
     <<: *server
-    networks:
-      <<: *networks
-      default:
-        ipv4_address: 172.28.10.2
-    command: "agent -server -advertise 172.28.10.2 -retry-join consul-server-bootstrap -client 0.0.0.0"
 
   consul-server-2:
     <<: *server
-    networks:
-      <<: *networks
-      default:
-        ipv4_address: 172.28.10.3
-    command: "agent -server -advertise 172.28.10.3 -retry-join consul-server-bootstrap -client 0.0.0.0"
 
   consul-server-bootstrap:
     <<: *server
-    networks:
-      <<: *networks
-      default:
-        ipv4_address: 172.28.10.1
     ports:
       - "8400:8400"
       - "8500:8500"
       - "8600:8600"
       - "8600:8600/udp"
-    command: "agent -server -bootstrap-expect 3 -ui -advertise 172.28.10.1 -retry-join consul-server-bootstrap -client 0.0.0.0"
-
-networks:
-  default:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.28.0.0/16
-  codimd_frontend:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.29.0.0/16
-  gitlab_frontend:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.30.0.0/16
-  mattermost_frontend:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.31.0.0/16
-  nexus3_frontend:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.32.0.0/16
-  openproject_frontend:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.33.0.0/16
+    command: "agent -server -bootstrap-expect 3 -ui -retry-join consul-server-bootstrap -client 0.0.0.0"

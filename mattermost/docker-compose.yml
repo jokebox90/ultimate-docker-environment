@@ -49,10 +49,9 @@ networks:
   backend:
   frontend:
     external: true
-    name: consul_mattermost_frontend
+    name: consul_default
     
 volumes:
-
   config_data: {}
   mattermost_data: {}
   logs_data: {}

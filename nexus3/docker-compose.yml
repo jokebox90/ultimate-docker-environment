@@ -22,4 +22,4 @@ volumes:
 networks:
   frontend:
     external: true
-    name: consul_nexus3_frontend
+    name: consul_default

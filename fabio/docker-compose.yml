@@ -7,30 +7,11 @@ services:
     ports:
       - '80:9999'
       - '9998:9998'
-    networks:
-      - consul_default
-      - codimd_frontend
-      - gitlab_frontend
-      - mattermost_frontend
-      - nexus3_frontend
-      - openproject_frontend
+    labels:
+      SERVICE_9998_TAGS: urlprefix-fabio.localhost/
+      SERVICE_9998_CHECK_HTTP: /
 
 networks:
-  consul_default:
+  default:
     external: true
     name: consul_default
-  codimd_frontend:
-    external: true
-    name: consul_codimd_frontend
-  gitlab_frontend:
-    external: true
-    name: consul_gitlab_frontend
-  mattermost_frontend:
-    external: true
-    name: consul_mattermost_frontend
-  nexus3_frontend:
-    external: true
-    name: consul_nexus3_frontend
-  openproject_frontend:
-    external: true
-    name: consul_openproject_frontend

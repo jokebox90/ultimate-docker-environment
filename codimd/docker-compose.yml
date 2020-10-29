@@ -36,7 +36,7 @@ services:
 networks:
   frontend:
     external: true
-    name: consul_codimd_frontend
+    name: consul_default
   backend:
 
 volumes:
