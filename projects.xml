@@ -1,0 +1,28 @@
+<Projects>
+    <Project>
+        <Name>consul</Name>
+    </Project>
+    <Project>
+        <Name>registrator</Name>
+    </Project>
+    <Project>
+        <Name>fabio</Name>
+    </Project>
+    <Project>
+        <Name>openproject</Name>
+    </Project>
+    <Project>
+        <Name>gitlab</Name>
+    </Project>
+    <Project>
+        <Name>nexus3</Name>
+        <GitUrl>https://github.com/sonatype-nexus-community/nexus-repository-composer.git</GitUrl>
+    </Project>
+    <Project>
+        <Name>mattermost</Name>
+        <GitUrl>https://github.com/mattermost/mattermost-docker.git</GitUrl>
+    </Project>
+    <Project>
+        <Name>codimd</Name>
+    </Project>
+</Projects>
