@@ -1,0 +1,6 @@
+--2020-10-05 09:42:35--  https://raw.githubusercontent.com/jokebox90/ansible-hosting-manager/master/LICENSE?token=AK53LZGCJWBAXWUONTHBVPC7PLHFO
+Résolution de raw.githubusercontent.com (raw.githubusercontent.com)… 151.101.192.133, 151.101.128.133, 151.101.64.133, ...
+Connexion à raw.githubusercontent.com (raw.githubusercontent.com)|151.101.192.133|:443… connecté.
+requête HTTP transmise, en attente de la réponse… 404 Not Found
+2020-10-05 09:42:35 erreur 404 : Not Found.
+

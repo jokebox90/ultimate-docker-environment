@@ -25,4 +25,7 @@
     <Project>
         <Name>codimd</Name>
     </Project>
+    <Project>
+        <Name>wordpress</Name>
+    </Project>
 </Projects>

@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.3
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  wordpress:
+    depends_on:
+      - db
+    build: wordpress
+    image: wordpress:custom
+    volumes:
+      - web_data:/var/www/html
+    restart: always
+    expose:
+      - 9000
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+
+  web:
+    depends_on:
+      - wordpress
+    image: nginx:custom
+    build: nginx
+    volumes:
+      - web_data:/var/www/html
+    restart: always
+    expose:
+      - 80
+    labels:
+      SERVICE_TAGS: urlprefix-wordpress.localhost/
+      SERVICE_CHECK_HTTP: /
+
+volumes:
+  db_data: {}
+  web_data: {}
+
+networks:
+  default:
+    external: true
+    name: consul_default
+    
