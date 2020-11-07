@@ -6,6 +6,7 @@ Param (
 
 $ErrorActionPreference = "stop"
 
+
 function Program {
     Param (
         [string]$Action,
@@ -13,90 +14,78 @@ function Program {
         [string]$Service
     )
     
-    $location = (Get-Location).Path
-    $allProjects = Get-Project -Name $Project
+    $currentLocation = (Get-Location).Path
+    $allProjects = GetProject -Name $Project
 
     if (-Not $Action -in @("start", "status")) {
         [array]::Reverse($allProjects)
     }
-
+    
     foreach ($item in $allProjects) {
-        $directory = "$($location)\$($item.Name)"
-        $file = "$($location)\$($item.Name)\docker-compose.yml"
-
-        if (-Not (Test-Path $directory)) {
-            DisplayError "directory not found: $directory."
-            exit
-        }
-
-        if (-Not (Test-Path $file)) {
-            DisplayError "file not found: $file."
-            exit
-        }
-    }
-
-    foreach ($item in $allProjects) {
-        $directory = "$($location)\$($item.Name)"
-        $file = "$($location)\$($item.Name)\docker-compose.yml"
-
+        
         Write-Host "---"
         Write-Host "--- Project: $($item.Name)"
         Write-Host "--- GitUrl: $($item.GitUrl)"
         Write-Host "---"
-
-        if ($item.GitUrl -And -Not (Test-Path "$($Directory)\src")) {
-            PullProjectSources -GitUrl $item.GitUrl -Destination "$($directory)\src" -Refs $item.GitRefs
-        }
-
-        switch ($Action)
-        {
-            "status" { ProjectStatus -File $file -Directory $directory -Service $Service; Break }
-            "start" { ProjectStart -File $file -Directory $directory -Service $Service; Break }
-            "stop" { ProjectStop -File $file -Directory $directory -Service $Service; Break }
-            "recreate" { ProjectRecreate -File $file -Directory $directory -Service $Service; Break }
-        }
+        RunAction -Action $Action -Location $currentLocation -Name $item.Name -Service $Service
+        # if ($actionResult.Code -Gt 0) {
+        #     DisplayError $actionResult.Message
+        #     exit
+        # }
     }
 }
 
-function Get-ProjectConfiguration {
+
+function RunAction {
+    Param (
+        [string]$Location,
+        [string]$Action,
+        [string]$Name,
+        [string]$Service
+    )
+
+    $project = GetProject -Name $Name
+
+    $directory = "$($Location)\$($project.Name)"
+    $file = "$($Location)\$($project.Name)\docker-compose.yml"
+
+    if ($project.GitUrl -And -Not (Test-Path "$($directory)\src")) {
+        PullProject -GitUrl $project.GitUrl -Destination "$($directory)\src" -Refs $project.GitRefs
+    }
+
+    switch ($Action)
+    {
+        "status" { CmdStatus -File $file -Directory $directory -Service $Service; Break }
+        "start" { CmdStart -File $file -Directory $directory -Service $Service; Break }
+        "stop" { CmdStop -File $file -Directory $directory -Service $Service; Break }
+        "recreate" { CmdRecreate -File $file -Directory $directory -Service $Service; Break }
+    }
+}
+
+
+function GetProject {
+    Param (
+        [string]$Name = ""
+    )
+
     $configDir = (Get-Location).Path
     $configFile = "$configDir\projects.xml"
 
     if (-Not (Test-Path $configFile)) {
-        Write-Host "Error" -ForegroundColor Red -NoNewline
-        Write-Host ": configuration file not found: $configFile"
+        DisplayError "configuration file not found: $configFile"
         exit
     }
 
     [xml]$configXml = Get-Content $configFile
-    return $configXml.Projects
-}
 
-function Get-Project {
-    Param (
-        [string]$Name
-    )
-
-    $projectXml = (Get-ProjectConfiguration).Project
-    $projectList = [System.Collections.ArrayList]@()
-
-    foreach ($item in $projectXml) {
-        if ($Name -And -Not ($Name -Eq $item.Name)) {
-            continue
-        }
-
-        $projectObj = [pscustomobject]@{
-            Name = $item.Name
-            GitUrl = $item.GitUrl
-        }
-
-        [void]$projectList.Add($projectObj)
+    if (-Not $Name -EQ "") {
+        return $configXml.Projects.Project | Where-Object -Property Name -eq $Name
+    } else {
+        return $configXml.Projects.Project
     }
-
-    return $projectList
 }
 
-function PullProjectSources {
+function PullProject {
     Param (
         [string]$GitUrl,
         [string]$Destination,
@@ -106,7 +95,8 @@ function PullProjectSources {
     git clone -b $Refs $GitUrl $Destination
 }
 
-function ProjectStatus {
+
+function CmdStatus {
     Param (
         [string]$File,
         [string]$Directory,
@@ -116,7 +106,8 @@ function ProjectStatus {
     docker-compose --file $File --project-directory $Directory ps $Service
 }
 
-function ProjectStart {
+
+function CmdStart {
     Param (
         [string]$File,
         [string]$Directory,
@@ -126,7 +117,8 @@ function ProjectStart {
     docker-compose --file $File --project-directory $Directory up -d --build $Service
 }
 
-function ProjectStop {
+
+function CmdStop {
     Param (
         [string]$File,
         [string]$Directory,
@@ -140,7 +132,8 @@ function ProjectStop {
     }
 }
 
-function ProjectRecreate {
+
+function CmdRecreate {
     Param (
         [string]$File,
         [string]$Directory,
@@ -150,6 +143,7 @@ function ProjectRecreate {
     docker-compose --file $File --project-directory $Directory up -d --build --force-recreate $Service
 }
 
+
 function DisplayError {
     Param (
         [string]$Message
@@ -158,5 +152,6 @@ function DisplayError {
     Write-Host "Error" -ForegroundColor Red -NoNewline
     Write-Host ": $Message"
 }
+
 
 Program -Action $Action -Project $Project -Service $Service
