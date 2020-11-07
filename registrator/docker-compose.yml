@@ -3,6 +3,7 @@ version: '3.7'
 services:
   agent:
     image: gliderlabs/registrator:latest
+    restart: always
     command: -internal consul://consul-server-bootstrap:8500
     volumes:
       - '/var/run/docker.sock:/tmp/docker.sock'

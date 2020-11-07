@@ -4,6 +4,7 @@ services:
   lb:
     build: .
     image: fabio
+    restart: always
     ports:
       - '80:9999'
       - '9998:9998'

@@ -1,19 +1,13 @@
 version: '3'
 
-x-consul-image: &image
+x-consul-service: &service
   image: consul:latest
-
-x-consul-agent: &agent
-  <<: *image
-  command: "agent -retry-join consul-server-bootstrap -client 0.0.0.0"
-
-x-consul-server: &server
-  <<: *image
-  command: "agent -server -retry-join consul-server-bootstrap -client 0.0.0.0"
+  restart: always
 
 services:
-  consul-agent-1:
-    <<: *agent
+  consul-agent-1: &agent
+    <<: *service
+    command: "agent -retry-join consul-server-bootstrap -client 0.0.0.0"
 
   consul-agent-2:
     <<: *agent
@@ -21,8 +15,9 @@ services:
   consul-agent-3:
     <<: *agent
 
-  consul-server-1:
-    <<: *server
+  consul-server-1: &server
+    <<: *agent
+    command: "agent -server -retry-join consul-server-bootstrap -client 0.0.0.0"
 
   consul-server-2:
     <<: *server
