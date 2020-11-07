@@ -1,0 +1,9 @@
+src/
+**/src/*
+
+.vscode/
+*.code-workspace
+
+*.gz
+*.zip
+*.tar.*
